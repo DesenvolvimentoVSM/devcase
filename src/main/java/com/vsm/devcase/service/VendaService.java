@@ -1,6 +1,7 @@
 package com.vsm.devcase.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,8 +12,10 @@ import org.springframework.util.StringUtils;
 import com.vsm.devcase.model.Cliente;
 import com.vsm.devcase.model.Pontuacao;
 import com.vsm.devcase.model.Venda;
+import com.vsm.devcase.model.enums.Sexo;
 import com.vsm.devcase.repository.VendaRepository;
 import com.vsm.devcase.service.exceptions.ObjectNotFoundException;
+import com.vsm.devcase.util.DataFormat;
 
 @Service
 public class VendaService {
@@ -26,15 +29,19 @@ public class VendaService {
 	@Autowired
 	private PontuacaoService pontuacaoService;
 	
-	public List<Venda> listarVendas(String dataVendaDe, String dataVendaAte, String sexo) {
+	public List<Venda> listarVendas(String dataVendaDe, String dataVendaAte, Sexo sexo) {
 		List<Venda> vendas;
 		
 		if (StringUtils.isEmpty(dataVendaDe) && StringUtils.isEmpty(dataVendaAte) && StringUtils.isEmpty(sexo)) {
 			vendas = repository.findAll();
 		} else if (StringUtils.isEmpty(sexo)) {
-			vendas = repository.findByDataBetween(dataVendaDe, dataVendaAte);
+			LocalDate dataDe = DataFormat.getLocalDate(dataVendaDe);
+			LocalDate dataAte = DataFormat.getLocalDate(dataVendaAte);
+			vendas = repository.findByDataBetween(dataDe, dataAte);
 		} else {
-			vendas = repository.findByDataVendaDeAndDataVendaAteAndSexo(dataVendaDe, dataVendaAte, sexo);
+			LocalDate dataDe = DataFormat.getLocalDate(dataVendaDe);
+			LocalDate dataAte = DataFormat.getLocalDate(dataVendaAte);
+			vendas = repository.findByDataBetweenAndClienteSexo(dataDe, dataAte, sexo);
 		}
 		
 		return vendas;

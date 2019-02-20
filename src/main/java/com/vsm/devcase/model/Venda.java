@@ -1,6 +1,8 @@
 package com.vsm.devcase.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,28 +20,32 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Venda {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotEmpty(message = "Descrição é obrigatória!")
 	private String descricao;
-	
-	@DateTimeFormat(pattern="dd/MM/yyyy")
-	private String data;
-	
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private LocalDate data;
+
 	private BigDecimal valor;
-	
+
 	@NotNull(message = "Escolha um cliente!")
 	@ManyToOne
 	private Cliente cliente;
-	
+
 	@ManyToOne
 	private Pontuacao pontos;
-	
+
 	@ManyToOne
 	private TipoPagamento tipoPag;
-	
+
 	public Venda() {
+		LocalDate hoje = LocalDate.now();
+		DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		hoje.format(formatador);
+		this.data = hoje;
 	}
 
 	public Long getId() {
@@ -58,11 +64,11 @@ public class Venda {
 		this.descricao = descricao;
 	}
 
-	public String getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
@@ -122,5 +128,5 @@ public class Venda {
 			return false;
 		return true;
 	}
-	
+
 }

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +34,14 @@ public class TipoPagamentoResource {
 	}
 	
 	@PostMapping
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<TipoPagamento> novoTipoPagamento(@Valid @RequestBody TipoPagamento tipo) {
 		TipoPagamento tipoSalvo = service.salvarNovoTipoPagamento(tipo);
 		return ResponseEntity.ok().body(tipoSalvo);
 	}
 	
 	@DeleteMapping("/{id}")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Void> excluirTipoPagamento(@PathVariable Long id) {
 		service.excluirTipoPagamento(id);
 		return ResponseEntity.noContent().build();
@@ -51,6 +54,7 @@ public class TipoPagamentoResource {
 	}
 	
 	@PutMapping("/{id}")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<TipoPagamento> atualizarTipoPagamento(@PathVariable Long id, @Valid @RequestBody TipoPagamento tipo) {
 		TipoPagamento tipoAtualizado = service.atualizarTipoPagamento(id, tipo);
 		return ResponseEntity.ok().body(tipoAtualizado);

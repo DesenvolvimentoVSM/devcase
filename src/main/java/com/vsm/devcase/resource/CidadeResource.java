@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,17 +29,19 @@ public class CidadeResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Cidade>> listarCidades() {
-		List<Cidade> clientes = service.listarTodasCidades();
-		return ResponseEntity.ok().body(clientes);
+		List<Cidade> cidades = service.listarTodasCidades();
+		return ResponseEntity.ok().body(cidades);
 	}
 	
 	@PostMapping
+	//@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Cidade> novaCidade(@Valid @RequestBody Cidade cidade) {
 		Cidade cidadeSalva = service.salvarNovaCidade(cidade);
 		return ResponseEntity.ok().body(cidadeSalva);
 	}
 	
 	@DeleteMapping("/{id}")
+	//@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Void> excluirCidade(@PathVariable Long id) {
 		service.excluirCidade(id);
 		return ResponseEntity.noContent().build();
@@ -51,6 +54,7 @@ public class CidadeResource {
 	}
 	
 	@PutMapping("/{id}")
+	//@PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Cidade> atualizarCidade(@PathVariable Long id, @Valid @RequestBody Cidade cidade) {
 		Cidade cidadeAtualizada = service.atualizarCidade(id, cidade);
 		return ResponseEntity.ok().body(cidadeAtualizada);

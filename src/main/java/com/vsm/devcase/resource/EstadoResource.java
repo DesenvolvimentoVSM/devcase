@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +34,14 @@ public class EstadoResource {
 	}
 	
 	@PostMapping
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Estado> novoEstado(@Valid @RequestBody Estado estado) {
 		Estado estadoSalvo = service.salvarNovoEstado(estado);
 		return ResponseEntity.ok().body(estadoSalvo);
 	}
 	
 	@DeleteMapping("/{id}")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Void> excluirEstado(@PathVariable Long id) {
 		service.excluirEstado(id);
 		return ResponseEntity.noContent().build();
@@ -51,6 +54,7 @@ public class EstadoResource {
 	}
 	
 	@PutMapping("/{id}")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Estado> atualizarEstado(@PathVariable Long id, @Valid @RequestBody Estado estado) {
 		Estado estadoAtualizado = service.atualizarEstado(id, estado);
 		return ResponseEntity.ok().body(estadoAtualizado);

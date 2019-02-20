@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vsm.devcase.model.Venda;
+import com.vsm.devcase.model.enums.Sexo;
 import com.vsm.devcase.service.VendaService;
 
 @RestController
@@ -29,7 +30,7 @@ public class VendaResource {
 	@GetMapping
 	public ResponseEntity<List<Venda>> listarVendas(@RequestParam(name = "dataDe", required=false) String dataVendaDe,
 			@RequestParam(name = "dataAte", required=false) String dataVendaAte, 
-			@RequestParam(name = "sexo", required=false) String sexo) {
+			@RequestParam(name = "sexo", required=false) Sexo sexo) {
 		List<Venda> clientes = service.listarVendas(dataVendaDe, dataVendaAte, sexo);
 		return ResponseEntity.ok().body(clientes);
 	}

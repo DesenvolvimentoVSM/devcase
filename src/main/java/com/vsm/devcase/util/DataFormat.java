@@ -2,6 +2,8 @@ package com.vsm.devcase.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class DataFormat {
@@ -18,9 +20,10 @@ public class DataFormat {
 		return dateFormat.format(date);
 	}
 	
-	public static String getDateBanco(String data) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		return dateFormat.format(data);
+	public static LocalDate getLocalDate(String data) {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		LocalDate localdate = LocalDate.parse(data, dtf);
+		return localdate;
 	}
 	
 }

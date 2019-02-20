@@ -1,30 +1,35 @@
 package com.vsm.devcase.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "cidade")
-public class Cidade {
-
+@Table(name = "usuario")
+public class Usuario {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = "Nome é obrigatório!")
 	private String nome;
 	
-	@NotNull(message = "Escolha um estado!")
-	@ManyToOne
-	@JoinColumn(name = "estado_id")
-	private Estado estado;
+	private String email;
+	
+	private String senha;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "usuario_id")
+			, inverseJoinColumns = @JoinColumn(name = "permissao_id"))
+	private List<UsuarioPermissao> permissao;
 
 	public Long getId() {
 		return id;
@@ -42,12 +47,28 @@ public class Cidade {
 		this.nome = nome;
 	}
 
-	public Estado getEstado() {
-		return estado;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+	public List<UsuarioPermissao> getPermissao() {
+		return permissao;
+	}
+
+	public void setPermissao(List<UsuarioPermissao> permissao) {
+		this.permissao = permissao;
 	}
 
 	@Override
@@ -66,7 +87,7 @@ public class Cidade {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cidade other = (Cidade) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
