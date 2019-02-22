@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,14 +33,14 @@ public class UsuarioResource {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('admin')")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Usuario> novaUsuario(@Valid @RequestBody Usuario usuario) {
 		Usuario usuarioSalvo = service.salvarNovoUsuario(usuario);
 		return ResponseEntity.ok().body(usuarioSalvo);
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('admin')")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Void> excluirUsuario(@PathVariable Long id) {
 		service.excluirUsuario(id);
 		return ResponseEntity.noContent().build();
@@ -54,7 +53,7 @@ public class UsuarioResource {
 	}
 	
 	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('admin')")
+	// @PreAuthorize("hasAuthority('admin')")
 	public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @Valid @RequestBody Usuario usuario) {
 		Usuario usuarioAtualizado = service.atualizarUsuario(id, usuario);
 		return ResponseEntity.ok().body(usuarioAtualizado);

@@ -21,8 +21,8 @@ public class DataFormat {
 	}
 	
 	public static LocalDate getLocalDate(String data) {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		LocalDate localdate = LocalDate.parse(data, dtf);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate localdate = LocalDate.parse(data, formatter);
 		return localdate;
 	}
 	
